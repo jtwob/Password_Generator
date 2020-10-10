@@ -11,7 +11,7 @@ let chosenChars = "";
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
-
+  chosenChars = "";
   passwordText.value = password;
 
 }
@@ -55,6 +55,7 @@ function generatePassword() {
 
   for(let i = 0; i < passLength; i++){
     let charType = chosenChars[Math.floor(Math.random() * chosenChars.length)];
+    console.log(charType);
     switch(charType){
       case 'l':
         passGen += lowerChars[Math.floor(Math.random() * lowerChars.length)];
