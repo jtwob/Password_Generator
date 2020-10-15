@@ -1,19 +1,24 @@
 // Assignment Code
 let generateBtn = document.querySelector("#generate");
 
-let specChars = " !\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~";
-let lowerChars = "abcdefghijklmnopqrstuvwxyz";
-let upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-let numChars = "0123456789";
-let chosenChars = "";
+// Helper object handling storage of password preferences.
+let charsObject = {
+  charArr: [" !\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~", "abcdefghijklmnopqrstuvwxyz", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "0123456789"],
+  chosenArr: [],
+  includeSpecial: false,
+  includeLower: false,
+  includeUpper: false,
+  includeNums: false,
+  passLength: 0
+}
 
 // Write password to the #password input
 function writePassword() {
-  let password = generatePassword();
+  let builder = charsObject;
+  let password = generatePassword(builder);
   let passwordText = document.querySelector("#password");
-  chosenChars = "";
   passwordText.value = password;
-
+  builder.chosenArr = [];
 }
 
 // Add event listener to generate button
@@ -25,49 +30,48 @@ generateBtn.addEventListener("click", writePassword);
  * Password is then displayed on screen.
  * @return secure password randomly generated.
  */
-function generatePassword() {
+function generatePassword(builder) {
   let passGen = "";
-  let lower = confirm("Include lower case characters?");
-  let upper = confirm("Include upper case characters?");
-  let nums = confirm("Include numbers?");
-  let special = confirm("Include special characters?");
-  if (lower) {
-    chosenChars += "l";
+  builder.includeLower = confirm("Include lower case characters?");
+  builder.includeUpper = confirm("Include upper case characters?");
+  builder.includeNums = confirm("Include numbers?");
+  builder.includeSpecial = confirm("Include special characters?");
+  if (builder.includeLower) {
+    builder.chosenArr.push('l');
   }
-  if (upper) {
-    chosenChars += "u";
+  if (builder.includeUpper) {
+    builder.chosenArr.push('u');
   }
-  if (nums) {
-    chosenChars += "n";
+  if (builder.includeNums) {
+    builder.chosenArr.push('n');
   }
-  if (special) {
-    chosenChars += "s";
+  if (builder.includeSpecial) {
+    builder.chosenArr.push('s');
   }
-  if (chosenChars.length === 0) {
+  if (builder.chosenArr.length === 0) {
     alert("You have not chosen any characters to include. A password will be generated with only lower case characters.");
-    chosenChars += "l";
+    builder.chosenArr.push('l');
   }
 
-  let passLength = prompt("How long would you like the password to be? (8-128)");
-  while (passLength === false || passLength < 8 || passLength > 128) {
+  builder.passLength = prompt("How long would you like the password to be? (8-128)");
+  while (builder.passLength === false || builder.passLength < 8 || builder.passLength > 128) {
     passLength = prompt("Invalid entry: How long would you like the password to be? (8-128)");
   }
 
-  for (let i = 0; i < passLength; i++) {
-    let charType = chosenChars[Math.floor(Math.random() * chosenChars.length)];
-    console.log(charType);
+  for (let i = 0; i < builder.passLength; i++) {
+    let charType = builder.chosenArr[Math.floor(Math.random() * builder.chosenArr.length)];
     switch (charType) {
       case 'l':
-        passGen += lowerChars[Math.floor(Math.random() * lowerChars.length)];
+        passGen += builder.charArr[1][Math.floor(Math.random() * builder.charArr[1].length)];
         break;
       case 'u':
-        passGen += upperChars[Math.floor(Math.random() * upperChars.length)];
+        passGen += builder.charArr[2][Math.floor(Math.random() * builder.charArr[2].length)];
         break;
       case 'n':
-        passGen += numChars[Math.floor(Math.random() * numChars.length)];
+        passGen += builder.charArr[3][Math.floor(Math.random() * builder.charArr[3].length)];
         break;
       case 's':
-        passGen += specChars[Math.floor(Math.random() * specChars.length)];
+        passGen += builder.charArr[0][Math.floor(Math.random() * builder.charArr[0].length)];
         break;
       default:
         console.log("No more characters");
