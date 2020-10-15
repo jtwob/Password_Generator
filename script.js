@@ -1,5 +1,5 @@
 // Assignment Code
-var generateBtn = document.querySelector("#generate");
+let generateBtn = document.querySelector("#generate");
 
 let specChars = " !\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~";
 let lowerChars = "abcdefghijklmnopqrstuvwxyz";
@@ -9,8 +9,8 @@ let chosenChars = "";
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+  let password = generatePassword();
+  let passwordText = document.querySelector("#password");
   chosenChars = "";
   passwordText.value = password;
 
@@ -31,32 +31,32 @@ function generatePassword() {
   let upper = confirm("Include upper case characters?");
   let nums = confirm("Include numbers?");
   let special = confirm("Include special characters?");
-  if(lower){
-    chosenChars+="l";
+  if (lower) {
+    chosenChars += "l";
   }
-  if(upper){
-    chosenChars+="u";
+  if (upper) {
+    chosenChars += "u";
   }
-  if(nums){
-    chosenChars+="n";
+  if (nums) {
+    chosenChars += "n";
   }
-  if(special){
-    chosenChars+="s";
+  if (special) {
+    chosenChars += "s";
   }
-  if(chosenChars.length === 0){
+  if (chosenChars.length === 0) {
     alert("You have not chosen any characters to include. A password will be generated with only lower case characters.");
-    chosenChars+="l";
+    chosenChars += "l";
   }
 
   let passLength = prompt("How long would you like the password to be? (8-128)");
-  while(passLength === false || passLength < 8 || passLength > 128){
+  while (passLength === false || passLength < 8 || passLength > 128) {
     passLength = prompt("Invalid entry: How long would you like the password to be? (8-128)");
   }
 
-  for(let i = 0; i < passLength; i++){
+  for (let i = 0; i < passLength; i++) {
     let charType = chosenChars[Math.floor(Math.random() * chosenChars.length)];
     console.log(charType);
-    switch(charType){
+    switch (charType) {
       case 'l':
         passGen += lowerChars[Math.floor(Math.random() * lowerChars.length)];
         break;
